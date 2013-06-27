@@ -11,14 +11,14 @@ get '/' do
   movies.each do |title|
     @movies << title.split(',')
   end
-    erb :movies
+  movies.close
+  erb :movies
 end
 
 
 
 get '/movie/:title' do
   @title = params[:title]
-  @single_movie = []
   movies_file = File.new('movies.csv', 'r')
   movies_file.each do |title|
     title.split(',')
@@ -38,7 +38,7 @@ post '/new_movie' do
   @title = params[:title]
   @movie = Imdb::Search.new(@title).movies.first
   movies = File.open('movies.csv', 'a+') do |title|
-   title.puts("#{@movie.title},#{@movie.year},#{@movie.director[0]},#{@movie.poster}")
+   title.puts("#{@movie.title},#{@movie.year},#{@movie.director[0]},#{@movie.poster},#{@movie.tagline}")
   end
 
 redirect to ("/movie/#{URI::encode(@movie.title)}")
