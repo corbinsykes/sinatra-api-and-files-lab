@@ -41,9 +41,5 @@ post '/new_movie' do
    title.puts("#{@movie.title},#{@movie.year},#{@movie.director[0]},#{@movie.poster}")
   end
 
-
-
-
-
-redirect to '/'
+redirect to ("/movie/#{URI::encode(@movie.title)}")
 end
